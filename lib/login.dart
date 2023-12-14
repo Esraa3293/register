@@ -20,15 +20,6 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                  height: 80,
-                  child: Image.asset(
-                    "assets/images/task.png",
-                    scale: 1,
-                  )),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
