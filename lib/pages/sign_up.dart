@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:register/sign_up.dart';
+import 'package:register/pages/home.dart';
+import 'package:register/pages/login.dart';
+import 'package:register/widgets/email_form.dart';
+import 'package:register/widgets/form_title.dart';
+import 'package:register/widgets/password_form.dart';
 
-class LoginScreen extends StatelessWidget {
-  static const String routeName = "login";
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+class SignUp extends StatelessWidget {
+  static const String routeName = 'signUp';
+  TextEditingController name = TextEditingController();
+  TextEditingController phone = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
-  LoginScreen({super.key});
+  SignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +19,8 @@ class LoginScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFFBCCE7),
       body: Padding(
-        padding: const EdgeInsets.only(top: 160.0),
-        child: SingleChildScrollView(
-          child: Column(
+          padding: const EdgeInsets.only(top: 100.0),
+          child: ListView(
             children: [
               Container(
                 decoration: const BoxDecoration(
@@ -35,7 +38,7 @@ class LoginScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const Text(
-                          "Login",
+                          "Sign Up",
                           style: TextStyle(
                               color: Colors.black54,
                               fontSize: 30,
@@ -44,35 +47,24 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text(
-                          "Email",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        FormTitle("Username"),
                         const SizedBox(
                           height: 6,
                         ),
                         TextFormField(
                           validator: (value) {
-                            bool emailValid = RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                .hasMatch(value!);
-                            if (value.isEmpty) {
-                              return "Please enter email";
-                            } else if (!emailValid) {
-                              return "Please enter valid email";
+                            if (value == null || value.isEmpty) {
+                              return "Please enter username";
                             }
                             return null;
                           },
-                          controller: email,
-                          keyboardType: TextInputType.emailAddress,
+                          controller: name,
+                          keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            labelText: "Email",
+                            labelText: "Username",
                             labelStyle:
                             const TextStyle(color: Color(0xFF02D8E9)),
-                            prefixIcon: const Icon(Icons.email_outlined),
+                            prefixIcon: const Icon(Icons.person_outline),
                             prefixIconColor: const Color(0xFF02D8E9),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -94,36 +86,24 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text(
-                          "Password",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        FormTitle("Phone"),
                         const SizedBox(
                           height: 6,
                         ),
                         TextFormField(
                           validator: (value) {
-                            // bool passwordValid = RegExp(
-                            //         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-                            //     .hasMatch(value!);
                             if (value == null || value.isEmpty) {
-                              return "Please enter password";
+                              return "Please enter phone";
                             }
-                            // else if (!passwordValid) {
-                            //   return "Please enter valid password*";
-                            // }
                             return null;
                           },
-                          controller: password,
-                          obscureText: true,
+                          controller: phone,
+                          keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
-                            labelText: "Password",
+                            labelText: "Phone",
                             labelStyle:
                             const TextStyle(color: Color(0xFF02D8E9)),
-                            prefixIcon: const Icon(Icons.password),
+                            prefixIcon: const Icon(Icons.phone),
                             prefixIconColor: const Color(0xFF02D8E9),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -143,14 +123,28 @@ class LoginScreen extends StatelessWidget {
                           cursorColor: const Color(0xFF62E8F1),
                         ),
                         const SizedBox(
+                          height: 20,
+                        ),
+                        FormTitle("Email"),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        EmailForm(),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        FormTitle("Password"),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        PasswordForm(),
+                        const SizedBox(
                           height: 30,
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // if (formKey.currentState!.validate()) {
-                            //   Navigator.pushReplacementNamed(
-                            //       context, HomeLayout.routeName);
-                            // }
+                            Navigator.pushReplacementNamed(
+                                context, HomeScreen.routeName);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF96798A),
@@ -160,7 +154,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                           child: const Text(
-                            "Submit",
+                            "Sign Up",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -173,17 +167,17 @@ class LoginScreen extends StatelessWidget {
                         Row(
                           children: [
                             const Text(
-                              "Don't have an account?",
+                              "Have an account?",
                               style:
                               TextStyle(color: Colors.grey, fontSize: 16),
                             ),
                             TextButton(
                                 onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, SignUp.routeName);
+                                  Navigator.pushNamed(
+                                      context, LoginScreen.routeName);
                                 },
                                 child: const Text(
-                                  "Sign Up",
+                                  "Login",
                                   style: TextStyle(color: Colors.black54),
                                 )),
                           ],
@@ -194,9 +188,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-        ),
-      ),
+          )),
     );
   }
 }
